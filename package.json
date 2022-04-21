@@ -1,0 +1,31 @@
+{
+  "name": "news-dashboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "coffee -t main.litcoffee"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "2.28.0",
+    "ink": "3.2.0",
+    "node-fetch": "2.6.7",
+    "react": "17.0.2",
+    "xml2js": "0.4.23"
+  },
+  "devDependencies": {
+    "@alextheartisan/prettier-config": "2.0.0",
+    "@babel/cli": "7.17.6",
+    "@babel/core": "7.17.9",
+    "@babel/preset-react": "7.16.7",
+    "coffeescript": "2.6.1"
+  },
+  "prettier": "@alextheartisan/prettier-config",
+  "babel": {
+    "presets": ["@babel/preset-react"]
+  }
+}
