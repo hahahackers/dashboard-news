@@ -1,6 +1,6 @@
 # dashboard-news
 
-Simple watchdog that looks at RSS of some news website and update
+Simple watchdog that monitors some news website for new articles
 
 Written using experimental literate programming style
 
