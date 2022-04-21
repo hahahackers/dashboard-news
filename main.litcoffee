@@ -1,3 +1,5 @@
+#! /usr/bin/env coffee
+
 ## Setup
 
 We will use RSS from `vc.ru`, `dtf.ru` and `tjournal.ru`, popular Russian news websites

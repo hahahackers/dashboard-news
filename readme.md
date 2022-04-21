@@ -6,3 +6,5 @@ Written using experimental literate programming style
 
     npm install
     npm start
+
+![](img.png)
