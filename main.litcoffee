@@ -10,20 +10,15 @@ We will periodically fetch new entries.
 
 ## Fetching data
 
-We need some libraries:
-
-- We need some lib for HTTP requests
+We need some libraries: `fetch` for HTTP requests...
 
     fetch = require 'node-fetch'
 
-- We also should be able to transform XML to JSON
+We also should be able to transform XML to JSON
 
     xml2js = require 'xml2js'
 
-Function for fetching data, it will accept a source and one of two types:
-
-- 'all' : fetch all news
-- 'new' : fetch only fresh news
+Function for fetching data, it will accept a source and one of two types: 'all' will fetch all news and 'new' for only fresh news
 
     getRSS = (source, type) ->
       response = await fetch "https://#{source}/rss/#{type}"
