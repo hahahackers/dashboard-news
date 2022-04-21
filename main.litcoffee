@@ -6,7 +6,7 @@ We will use RSS from `vc.ru`, `dtf.ru` and `tjournal.ru`, popular Russian news w
 
 We will periodically fetch new entries.
 
-    updateInterval = 5 # 5 min
+    updateInterval = 5 * 60 # 5 min
 
 ## Fetching data
 
