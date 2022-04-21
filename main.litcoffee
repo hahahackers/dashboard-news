@@ -6,7 +6,7 @@ We will use RSS from `vc.ru`, `dtf.ru` and `tjournal.ru`, popular Russian news w
 
 We will periodically fetch new entries.
 
-    updateInterval = 5 * 60 # 5 min
+    updateInterval = 5 # 5 min
 
 ## Fetching data
 
@@ -88,7 +88,9 @@ Two effects, one for timer and one for update logic
       , []
 
       useEffect ->
-        do update if count is updateInterval
+        switch count
+          when 0 then setCount updateInterval
+          when updateInterval then do update
         return
       , [count]
 
