@@ -10,18 +10,16 @@ update-interval = 5 * 60 # 5 minutes
 require! 'node-fetch': fetch
 
 # ... and we also should be able to transform XML to JSON
-require! xml2js
+require! xml2js: { parse-string-promise }
 
 # Function for fetching data, it will accept a source and one of two types:
 # 'all' will fetch all news and 'new' for only fresh news
-
 get-RSS = (source, type) ->>
-    response = await fetch "https://#{source}/rss/#{type}"
-    xml = await response.text!
-    obj = await xml2js.parse-string-promise xml
+    res = await fetch "https://#{source}/rss/#{type}"
+    xml = await res.text!
+    obj = await parse-string-promise xml
 
 # Mapping the response to our needs, returning a simple POJO
-
     let entry = obj.rss.channel[0]
         title: entry.title[0]
         items: entry.item.map (item) ->
@@ -33,7 +31,6 @@ get-RSS = (source, type) ->>
 # -- UI --------------------------------------------------------------------------------------------
 
 # We need to format dates to human readable form. Let's do it using `date-fns`
-
 require! 'date-fns': { format-distance-to-now-strict, parse }
 
 format-date = (date) ->
@@ -51,19 +48,16 @@ merge = (prev, next) ->
 
 # Let's creat a UI for our watcher, we will use `react` as UI library and `ink` as our console React renderer.
 # We will have two components: one containing fetching logic and another with visuals
-
 require! react: { Fragment, use-state, use-effect, create-element: $ }: React
 require! ink: { Box, Text }
 
 # Lets change argument positions in some functions for convenience
-
 rearg = (fn, ids) -> (...args) -> fn(...ids.map (args.))
 
 use-effect     = rearg use-effect, [1 0]
 interval       = rearg set-interval, [1 0]
 
 # First component will serve as a container for all the logic
-
 Feed-Container = ({ source, type }) ->
     [loading, set-loading] = use-state true
     [count, set-count]     = use-state update-interval
@@ -94,7 +88,6 @@ Feed-Container = ({ source, type }) ->
         $ Feed-View, { title, items }
 
 # This component is responsible for visuals
-
 Feed-View = ({ title, items }) ->
     values = Object.values items
 
@@ -114,7 +107,6 @@ Feed-View = ({ title, items }) ->
                 $ Text, , item.title
 
 # Finally, let's render everything
-
 require! ink: { render }
 
 do console.clear
