@@ -55,9 +55,9 @@ merge = (prev, next) ->
 require! react: { Fragment, use-state, use-effect}: React
 require! ink: { Box, Text }
 
-# Lets change argument positions in useEffect fn for convenience
+# Lets change argument positions in `useEffect` and `setInterval` functions for convenience
 
-rearg = (fn, ids) -> (...args) -> fn(...ids.map (i) -> args[i])
+rearg = (fn, ids) -> (...args) -> fn(...ids.map (args.))
 
 use-effect = rearg use-effect, [1 0]
 interval = rearg set-interval, [1 0]
