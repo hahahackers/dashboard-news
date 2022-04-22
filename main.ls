@@ -91,11 +91,11 @@ Feed-Container = ({ source, type }) ->
 
     $ Fragment, ,
         $ Text, , "Update in #count seconds"
-        $ FeedView, { title, items }
+        $ Feed-View, { title, items }
 
 # This component is responsible for visuals
 
-FeedView = ({ title, items }) ->
+Feed-View = ({ title, items }) ->
     values = Object.values items
 
     date-padding = Math.max ...values.map (.published-at.length)
@@ -119,4 +119,4 @@ require! ink: { render }
 
 do console.clear
 
-render ``<FeedContainer source={source} type="all" />``
+render $ Feed-Container, { source, type: 'all' }
