@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "coffee -t main.litcoffee"
+    "start": "lsc -c main.ls | babel main.js | node"
   },
   "keywords": [],
   "author": "",
-  "type": "module",
   "license": "ISC",
   "dependencies": {
     "date-fns": "2.28.0",
@@ -22,10 +21,12 @@
     "@babel/cli": "7.17.6",
     "@babel/core": "7.17.9",
     "@babel/preset-react": "7.16.7",
-    "coffeescript": "2.6.1"
+    "livescript": "1.6.0"
   },
   "prettier": "@alextheartisan/prettier-config",
   "babel": {
-    "presets": ["@babel/preset-react"]
+    "presets": [
+      "@babel/preset-react"
+    ]
   }
 }
