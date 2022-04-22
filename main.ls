@@ -36,13 +36,13 @@ get-RSS = (source, type) ->>
 
 require! 'date-fns': { format-distance-to-now-strict, parse }
 
-format-date = (date) -> 
+format-date = (date) ->
     parse date, 'E, d MMM yyyy HH:mm:ss X', do Date.now
     |> format-distance-to-now-strict
 
-merge = (prev, next) -> 
+merge = (prev, next) ->
     for item in next
-        prev[item.guid] = 
+        prev[item.guid] =
             guid: item.guid
             title: item.title
             link: item.link
@@ -87,7 +87,7 @@ Feed-Container = ({ source, type }) ->
         -> clear-interval timer
 
     use-effect [count] !->
-        switch count    
+        switch count
             when 0 then set-count update-interval
             when update-interval then do update
 
@@ -102,13 +102,13 @@ Feed-Container = ({ source, type }) ->
 
 FeedView = ({ title, items }) ->
     values = Object.values items
-    
+
     date-padding = Math.max ...values.map (.published-at.length)
 
 # Let's sort by guid
 
     by-guid = (a, b) -> b.guid - a.guid
-    
+
     list = values.sort by-guid .map (item, ind) ->
         let published-at = item.published-at.pad-end date-padding
             ``<Box key={item.guid}>
