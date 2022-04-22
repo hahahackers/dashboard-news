@@ -105,7 +105,7 @@ FeedView = ({ title, items }) ->
     $ Fragment, ,
         $ Text, , title
         do
-            (item, ind) <- values.sort by-guid .map
+            item <- values.sort by-guid .map
             $ Box, key: item.guid,
                 $ Text, dim-color: true color: 'blue', "https://#source/#{item.guid}"
                 $ Text, , " "
