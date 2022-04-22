@@ -52,15 +52,15 @@ merge = (prev, next) ->
 # Let's creat a UI for our watcher, we will use `react` as UI library and `ink` as our console React renderer.
 # We will have two components: one containing fetching logic and another with visuals
 
-require! react: { Fragment, use-state, use-effect}: React
+require! react: { Fragment, use-state, use-effect, create-element: $ }: React
 require! ink: { Box, Text }
 
-# Lets change argument positions in `useEffect` and `setInterval` functions for convenience
+# Lets change argument positions in some functions for convenience
 
 rearg = (fn, ids) -> (...args) -> fn(...ids.map (args.))
 
-use-effect = rearg use-effect, [1 0]
-interval = rearg set-interval, [1 0]
+use-effect     = rearg use-effect, [1 0]
+interval       = rearg set-interval, [1 0]
 
 # First component will serve as a container for all the logic
 
@@ -70,8 +70,6 @@ Feed-Container = ({ source, type }) ->
     [title, set-title]     = use-state ''
     [items, set-items]     = use-state {}
 
-# Update logic
-
     update = ->>
         set-loading true
         data = await get-RSS source, type
@@ -79,8 +77,6 @@ Feed-Container = ({ source, type }) ->
         set-title data.title
         set-count update-interval
         set-loading false
-
-# Two effects, one for timer and one for update logic
 
     use-effect [] ->
         timer = interval 1000 -> set-count (--)
@@ -91,38 +87,31 @@ Feed-Container = ({ source, type }) ->
             when 0 then set-count update-interval
             when update-interval then do update
 
-# Rendering view
+    return $ Text, 'Loading...' if loading
 
-    return ``<Text>Loading...</Text>`` if loading
+    $ Fragment, ,
+        $ Text, , "Update in #count seconds"
+        $ FeedView, { title, items }
 
-    ``<Fragment>
-        <Text>Update in {count} seconds</Text>
-        <FeedView title={title} items={items} />
-    </Fragment>``
+# This component is responsible for visuals
 
 FeedView = ({ title, items }) ->
     values = Object.values items
 
     date-padding = Math.max ...values.map (.published-at.length)
 
-# Let's sort by guid
+    by-guid = (a, b) -> b.guid - a.guid # Let's sort by guid
 
-    by-guid = (a, b) -> b.guid - a.guid
-
-    list = values.sort by-guid .map (item, ind) ->
-        let published-at = item.published-at.pad-end date-padding
-            ``<Box key={item.guid}>
-                <Text dimColor color="blue">https://{source}/{item.guid}</Text>
-                <Text> </Text>
-                <Text dimColor color="yellow">{publishedAt}</Text>
-                <Text> </Text>
-                <Text>{item.title}</Text>
-            </Box>``
-
-    ``<Fragment>
-        <Text>{title}</Text>
-        {list}
-    </Fragment>``
+    $ Fragment, ,
+        $ Text, , title
+        do
+            (item, ind) <- values.sort by-guid .map
+            $ Box, key: item.guid,
+                $ Text, dim-color: true color: 'blue', "https://#source/#{item.guid}"
+                $ Text, , " "
+                $ Text, dim-color: true color: 'yellow', item.published-at.pad-end date-padding
+                $ Text, , " "
+                $ Text, , item.title
 
 # Finally, let's render everything
 
